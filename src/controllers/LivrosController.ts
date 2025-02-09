@@ -2,7 +2,7 @@ import { Request, response, Response } from "express";
 import { AppDataSource } from "../database/data-source";
 import Livro from "../entities/Livro";
 
-class LivrosControllers{
+export class LivrosControllers{
 
     private livrosRepository;
 
@@ -11,9 +11,9 @@ class LivrosControllers{
       }
 
     // Método para criar um livro
-      public createLivro =  async (req: Request, res: Response) => {
+      public createLivro =  async (request: Request, response: Response) => {
         try{
-            const body = req.body
+            const body = request.body
     
             if(!body.title){
                 response
@@ -69,10 +69,10 @@ class LivrosControllers{
     }
 
       // Método para buscar todos os livros
-      public livrosGetAll = async (req: Request, res: Response) => {
+      public livrosGetAll = async (request: Request, response: Response) => {
         try{
             const livros = await this.livrosRepository.find()
-            return res.status(200).json(livros)
+            return response.status(200).json(livros)
     
         } catch(error){
             console.error('Erro ao buscar livros', error)
@@ -102,10 +102,10 @@ class LivrosControllers{
         }
 
         // Método para deletar um livro pelo id
-        public uptadeLivros = async (req: Request, res: Response) => {
+        public uptadeLivros = async (request: Request, response: Response) => {
             try{
-                const id = Number(req.params.id);
-                const body = req.body;
+                const id = Number(request.params.id);
+                const body = request.body;
         
                 if('name' in body && !body.title){
                     response.status(400).json({error: 'O campo titulo não pode ser vazio'})
@@ -155,9 +155,9 @@ class LivrosControllers{
         }
     
         // Método para deletar um livro pelo id
-        public deleteLivros = async (req: Request, res: Response) => {
+        public deleteLivros = async (request: Request, response: Response) => {
             try{
-                const id = Number(req.params.id);
+                const id = Number(request.params.id);
                 const booksDelected =  await this.livrosRepository.delete(id)
         
                 if(booksDelected.affected === 0){
@@ -172,9 +172,9 @@ class LivrosControllers{
         }
 
         // Método para buscar 3 os livros com mais páginas cadastrados categorizados por linguagem
-        public getLivrosRanking = async (req: Request, res: Response) => {
+        public getLivrosRanking = async (request: Request, response: Response) => {
             try {
-                const language = String(req.params.language);
+                const language = String(request.params.language);
         
                 const livrosMaisPaginas = await this.livrosRepository.find({
                     where: {
@@ -187,16 +187,14 @@ class LivrosControllers{
                 });
         
                 if (livrosMaisPaginas.length > 0) {
-                    return res.status(200).json(livrosMaisPaginas);
+                    return response.status(200).json(livrosMaisPaginas);
                 } else {
-                    return res.status(404).json({ message: "Nenhum livro encontrado para a linguagem especificada." });
+                    return response.status(404).json({ message: "Nenhum livro encontrado para a linguagem especificada." });
                 }
             } catch (error) {
                 console.error("Erro ao buscar os livros:", error);
-                return res.status(500).json({ message: "Erro ao buscar os livros." });
+                return response.status(500).json({ message: "Erro ao buscar os livros." });
             }
         };
               
 }
-
-export default LivrosControllers

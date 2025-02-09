@@ -1,5 +1,5 @@
 import { Request, Response, Router } from 'express';
-import LivrosControllers from '../controllers/LivrosController';
+import { LivrosControllers } from '../controllers/LivrosController';
 
 const livroRoutes = Router();
 const livrosControllers = new LivrosControllers()
