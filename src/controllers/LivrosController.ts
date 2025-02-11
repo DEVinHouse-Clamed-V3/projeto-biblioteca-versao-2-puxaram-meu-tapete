@@ -174,13 +174,10 @@ export class LivrosControllers{
         // Método para buscar 3 os livros com mais páginas cadastrados categorizados por linguagem
         public getLivrosRanking = async (request: Request, response: Response) => {
             try {
-                const language = String(request.params.language);
-        
+         
                 const livrosMaisPaginas = await this.livrosRepository.find({
-                    where: {
-                        language: language, // Filtro pela linguagem
-                    },
                     order: {
+                        language: "ASC", // Ordenação por linguagem de forma crescente
                         page_count: "DESC", // Ordenação por número de páginas de forma decrescente
                     },
                     take: 3, // Limitar para os 3 primeiros livros
@@ -189,12 +186,12 @@ export class LivrosControllers{
                 if (livrosMaisPaginas.length > 0) {
                     return response.status(200).json(livrosMaisPaginas);
                 } else {
-                    return response.status(404).json({ message: "Nenhum livro encontrado para a linguagem especificada." });
+                    return response.status(404).json({ message: "Nenhum livro encontrado" });
                 }
             } catch (error) {
                 console.error("Erro ao buscar os livros:", error);
                 return response.status(500).json({ message: "Erro ao buscar os livros." });
             }
         };
-              
+          
 }

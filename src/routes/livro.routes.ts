@@ -9,7 +9,7 @@ livroRoutes.get("/getLivro", livrosControllers.livrosGetAll)
 livroRoutes.get("/getLivro/:id", livrosControllers.livrosGetById)
 livroRoutes.put("/uptadeLivro/:id", livrosControllers.uptadeLivros)
 livroRoutes.delete("/deleteLivro/:id", livrosControllers.deleteLivros)
-livroRoutes.delete("/rankingLivro", livrosControllers.getLivrosRanking)
+livroRoutes.get("/rankingLivro", livrosControllers.getLivrosRanking)
 
 export default livroRoutes; 
 
